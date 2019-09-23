@@ -1,0 +1,34 @@
+<h2>Best Ever Horse</h2>
+{% if bestEverHorse %}
+    <table class="table table-sm">
+        <thead>
+        <tr class="table-primary">
+            <th colspan="2">Horse: {{ bestEverHorse.horse.name }} </th>
+            <th colspan="2">Time: {{ (bestEverHorse.timeSpent/60)|number_format(2, '.', ',') }} minutes in Race # {{ bestEverHorse.race.id }}</th>
+            <th>Completed at {{ bestEverHorse.race.completedAt|date("F d, Y H:i:s", "Europe/Berlin") }}</th>
+        </tr>
+        <tr>
+            <th>Speed</th>
+            <th>Strength</th>
+            <th>Endurance</th>
+            <th>Autonomy</th>
+            <th>Slowdown</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ bestEverHorse.horse.speed }} m/s</td>
+            <td>{{ bestEverHorse.horse.strength }}</td>
+            <td>{{ bestEverHorse.horse.endurance }}</td>
+            <td>{{ bestEverHorse.horse.autonomy }} m</td>
+            <td>{{ bestEverHorse.horse.slowdown }} m/s</td>
+        </tr>
+        </tbody>
+    </table>
+{% else %}
+    <table class="table">
+        <tr class="table-info">
+            <td>No completed races were found</td>
+        </tr>
+    </table>
+{% endif %}
