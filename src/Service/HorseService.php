@@ -8,8 +8,7 @@ use App\Entity\Horse;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class HorseService
- * @package App\Service
+ * Class HorseService.
  */
 class HorseService
 {
@@ -30,23 +29,27 @@ class HorseService
 
     /**
      * HorseService constructor.
-     * @param UtilService $utilService
+     *
+     * @param UtilService        $utilService
      * @param ValidatorInterface $validator
      */
-    public function __construct(UtilService $utilService, ValidatorInterface $validator) {
+    public function __construct(UtilService $utilService, ValidatorInterface $validator)
+    {
         $this->utilService = $utilService;
         $this->validator = $validator;
     }
 
     /**
-     * Creates a Horse entity object according to provided stats
+     * Creates a Horse entity object according to provided stats.
      *
      * @param float $speed
      * @param float $strength
      * @param float $endurance
+     *
      * @return Horse
      */
-    public function createHorse(float $speed, float $strength, float $endurance): Horse {
+    public function createHorse(float $speed, float $strength, float $endurance): Horse
+    {
         $horse = new Horse();
         $horse->setSpeed($speed);
         $horse->setStrength($strength);
@@ -69,9 +72,11 @@ class HorseService
     /**
      * @param Horse $horse
      * @param float $distance
+     *
      * @return float
      */
-    public function getHorseRealSpeed(Horse $horse, float $distance): float {
+    public function getHorseRealSpeed(Horse $horse, float $distance): float
+    {
         if ($distance <= $horse->getAutonomy()) {
             return $horse->getBestSpeed();
         }

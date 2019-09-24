@@ -8,11 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="horse_race")
+ * @ORM\Table(name="horse_in_race")
  * Class HorseRace
- * @package App\Entity
  */
-Class HorseRace
+class HorseInRace
 {
     /**
      * @var int
@@ -53,39 +52,48 @@ Class HorseRace
      */
     private $distanceCovered;
 
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
 
-    public function setHorse(Horse $horse): void {
+    public function setHorse(Horse $horse): void
+    {
         $this->horse = $horse;
     }
 
-    public function getHorse(): Horse {
+    public function getHorse(): Horse
+    {
         return $this->horse;
     }
 
-    public function setRace(Race $race): void {
+    public function setRace(Race $race): void
+    {
         $this->race = $race;
     }
 
-    public function getRace(): Race {
+    public function getRace(): Race
+    {
         return $this->race;
     }
 
-    public function setTimeSpent(float $timeSpent): void {
+    public function setTimeSpent(float $timeSpent): void
+    {
         $this->timeSpent = $timeSpent;
     }
 
-    public function getTimeSpent(): float {
+    public function getTimeSpent(): float
+    {
         return $this->timeSpent;
     }
 
-    public function setDistanceCovered(float $distanceCovered): void {
+    public function setDistanceCovered(float $distanceCovered): void
+    {
         $this->distanceCovered = $distanceCovered;
     }
 
-    public function getDistanceCovered(): float {
+    public function getDistanceCovered(): float
+    {
         return $this->distanceCovered;
     }
 }

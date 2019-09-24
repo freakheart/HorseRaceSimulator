@@ -13,9 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Defines the properties of the Horse entity.
  *
  * Class Horse
- * @package App\Entity
  */
-Class Horse {
+class Horse
+{
     /**
      * @var int
      *
@@ -48,7 +48,6 @@ Class Horse {
      *      minMessage = "Minimum strength of the horse must be greather than or equal to {{ limit }} m/s",
      *      maxMessage = "Maximum strength of the horse must be less or equal than {{ limit }} m/s"
      * )
-     *
      */
     private $strength;
 
@@ -62,7 +61,6 @@ Class Horse {
      *      minMessage = "Minimum endurance of the horse must be greather tthan or equal to {{ limit }} m/s",
      *      maxMessage = "Maximum endurance of the horse must be less than or equal to {{ limit }} m/s"
      * )
-     *
      */
     private $endurance;
 
@@ -94,59 +92,73 @@ Class Horse {
      */
     private $name;
 
-    public function setSpeed(float $speed): void {
+    public function setSpeed(float $speed): void
+    {
         $this->speed = $speed;
     }
 
-    public function getSpeed(): float {
+    public function getSpeed(): float
+    {
         return $this->speed;
     }
 
-    public function setStrength(float $strength): void {
+    public function setStrength(float $strength): void
+    {
         $this->strength = $strength;
     }
 
-    public function getStrength(): float {
+    public function getStrength(): float
+    {
         return $this->strength;
     }
 
-    public function setEndurance(float $endurance): void {
+    public function setEndurance(float $endurance): void
+    {
         $this->endurance = $endurance;
     }
 
-    public function getEndurance(): float {
+    public function getEndurance(): float
+    {
         return $this->endurance;
     }
 
-    public function setBestSpeed(float $bestSpeed): void {
+    public function setBestSpeed(float $bestSpeed): void
+    {
         $this->bestSpeed = $bestSpeed;
     }
 
-    public function getBestSpeed(): float {
+    public function getBestSpeed(): float
+    {
         return $this->bestSpeed;
     }
 
-    public function getAutonomy(): ?float {
+    public function getAutonomy(): ?float
+    {
         return $this->autonomy;
     }
 
-    public function setAutonomy(float $autonomy): void {
+    public function setAutonomy(float $autonomy): void
+    {
         $this->autonomy = $autonomy;
     }
 
-    public function setSlowDown(float $slowDown): void {
+    public function setSlowDown(float $slowDown): void
+    {
         $this->slowDown = $slowDown;
     }
 
-    public function getSlowDown(): ?float {
+    public function getSlowDown(): ?float
+    {
         return $this->slowDown;
     }
 
-    public function setName(string $name): void {
+    public function setName(string $name): void
+    {
         $this->name = $name;
     }
 
-    public function getName(): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 }

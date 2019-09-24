@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Service\RaceService;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -14,40 +16,36 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DefaultController extends AbstractController
 {
     /**
-     * @var RaceService
-     */
-    private $raceService;
-
-    /**
-     * RaceController constructor.
-     * @param RaceService $raceService
-     */
-    public function __construct(RaceService $raceService) {
-        $this->raceService = $raceService;
-    }
-
-    /**
      * @Route("/", name="index")
+     *
+     * @param RaceService $raceService
+     *
+     * @return Response
      */
-    public function index() {
+    public function index(RaceService $raceService)
+    {
         return $this->render('index.html.twig', [
-            'activeRaces' => $this->raceService->getActiveRacesWithHorses(),
-            'finishedRaces' => $this->raceService->getLastCompletedRacesWithHorses(),
-            'bestEverHorse' => $this->raceService->getBestEverHorse()
+            'activeRaces' => $raceService->getActiveRacesWithHorses(),
+            'finishedRaces' => $raceService->getLastCompletedRacesWithHorses(),
+            'bestEverHorse' => $raceService->getBestEverHorse(),
         ]);
     }
 
     /**
      * @Route("/create", name="createRace")
+     *
+     * @param RaceService $raceService
+     *
+     * @return RedirectResponse
      */
-    public function createRace()
+    public function createRace(RaceService $raceService)
     {
         try {
-            $this->raceService->createRace();
+            $raceService->createRace();
         } catch (\Exception $e) {
             $this->addFlash(
                 'danger',
-                "[Error]. " . $e->getMessage()
+                '[Error]. '.$e->getMessage()
             );
         }
 
@@ -56,15 +54,19 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/progress", name="progressRaces")
+     *
+     * @param RaceService $raceService
+     *
+     * @return RedirectResponse
      */
-    public function progressRaces()
+    public function progressRaces(RaceService $raceService)
     {
         try {
-            $this->raceService->progressRaces();
+            $raceService->progressRaces();
         } catch (\Exception $e) {
             $this->addFlash(
                 'danger',
-                "[Error]. " . $e->getMessage()
+                '[Error]. '.$e->getMessage()
             );
         }
 

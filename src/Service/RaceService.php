@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\HorseRace;
+use App\Entity\HorseInRace;
 use App\Entity\Race;
 use App\Repository\RaceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class RaceService
- * @package App\Service
+ * Class RaceService.
  */
 class RaceService
 {
@@ -22,31 +21,28 @@ class RaceService
     const PROGRESS_SECONDS = 10.0;
 
     /**
-     * @var HorseRaceService
+     * @var HorseInRaceService
      */
-    private $horseRaceService;
+    private $horseInRaceService;
 
     /**
      * @var RaceRepository
      */
     private $raceRepository;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityMgr;
+    private $entityManager;
 
     /**
      * RaceService constructor.
-     * @param HorseRaceService $horseRaceService
-     * @param RaceRepository $raceRepository
-     * @param EntityManagerInterface $entityMgr
+     *
+     * @param HorseInRaceService $horseInRaceService
+     * @param RaceRepository     $raceRepository
      */
-    public function __construct(HorseRaceService $horseRaceService, RaceRepository $raceRepository, EntityManagerInterface $entityMgr)
+    public function __construct(HorseInRaceService $horseInRaceService, RaceRepository $raceRepository, EntityManagerInterface $entityManager)
     {
-        $this->horseRaceService = $horseRaceService;
+        $this->horseInRaceService = $horseInRaceService;
         $this->raceRepository = $raceRepository;
-        $this->entityMgr = $entityMgr;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -55,7 +51,7 @@ class RaceService
     public function createRace(): void
     {
         if (count($this->raceRepository->getActiveRaces()) >= self::ALLOWED_RACES) {
-            throw new \InvalidArgumentException("Only " . self::ALLOWED_RACES . " races are allowed at the same time.");
+            throw new \InvalidArgumentException('Only '.self::ALLOWED_RACES.' races are allowed at the same time.');
         }
 
         $race = new Race();
@@ -64,21 +60,18 @@ class RaceService
         $race->setMaxDistance(self::MAX_DISTANCE);
         $race->setDuration(0.0);
 
-        $this->entityMgr->beginTransaction();
-
         try {
-            $this->entityMgr->persist($race);
-            $horses = $this->horseRaceService->generateHorsesForRace();
+            $this->entityManager->persist($race);
+            $horses = $this->horseInRaceService->getHorsesForRace();
 
             foreach ($horses as $horse) {
-                $this->entityMgr->persist($horse);
-                $this->entityMgr->persist($this->horseRaceService->createHorseByRace($race, $horse));
+                $this->entityManager->persist($horse);
+                $this->entityManager->persist($this->horseInRaceService->createHorseInRace($race, $horse));
             }
 
-            $this->entityMgr->flush();
-            $this->entityMgr->commit();
+            $this->entityManager->flush();
         } catch (\Throwable $e) {
-            $this->entityMgr->rollback();
+            $this->entityManager->rollback();
             throw new \InvalidArgumentException($e->getMessage());
         }
     }
@@ -94,7 +87,7 @@ class RaceService
         foreach ($activeRaces as $activeRace) {
             $result[] = [
                 'race' => $activeRace,
-                'horses' => $this->horseRaceService->getHorsesByRace($activeRace->getId())
+                'horses' => $this->horseInRaceService->getHorsesRace($activeRace->getId()),
             ];
         }
 
@@ -106,19 +99,19 @@ class RaceService
      */
     public function getLastCompletedRacesWithHorses(): array
     {
-        $completedRaces = $this->raceRepository->getLastCompletedRaces(self::LAST_COMPLETED_RACES);
+        $completedRaces = $this->raceRepository->getFinishedRaces(self::LAST_COMPLETED_RACES);
         $result = [];
 
         foreach ($completedRaces as $completedRace) {
             $horses = array_slice(
-                $this->horseRaceService->getHorsesByRace($completedRace->getId()),
+                $this->horseInRaceService->getHorsesRace($completedRace->getId()),
                 0,
                 self::TOP_COMPLETED_AMOUNT
             );
 
             $result[] = [
                 'race' => $completedRace,
-                'horses' => $horses
+                'horses' => $horses,
             ];
         }
 
@@ -126,13 +119,12 @@ class RaceService
     }
 
     /**
-     * @return HorseRace|null
+     * @return HorseInRace|null
      */
-    public function getBestEverHorse(): ?HorseRace
+    public function getBestEverHorse(): ?HorseInRace
     {
-        return $this->horseRaceService->getBestEverHorse();
+        return $this->horseInRaceService->getBestEverHorse();
     }
-
 
     /**
      * @throws \Exception
@@ -141,32 +133,32 @@ class RaceService
     {
         $activeRaces = $this->raceRepository->getActiveRaces();
 
-        if (count($activeRaces) === 0) {
-            throw new \InvalidArgumentException("There are no active races at this moment.");
+        if (0 === count($activeRaces)) {
+            throw new \InvalidArgumentException('There are no active races at this moment.');
         }
 
-        $this->entityMgr->beginTransaction();
+        $this->entityManager->beginTransaction();
 
         try {
             foreach ($activeRaces as $activeRace) {
-                $horses = $this->horseRaceService->progressHorsesByRace($activeRace, self::PROGRESS_SECONDS);
+                $horses = $this->horseInRaceService->progressHorsesRace($activeRace, self::PROGRESS_SECONDS);
 
-                foreach ($horses['horsesByRace'] as $horseByRace) {
-                    $this->entityMgr->persist($horseByRace);
+                foreach ($horses['horsesInRace'] as $horseInRace) {
+                    $this->entityManager->persist($horseInRace);
                 }
 
                 // If all horses have completed the race
                 if ($horses['completedRace']) {
                     $activeRace->setActive(0);
                     $activeRace->setCompletedAt(new \DateTimeImmutable());
-                    $this->entityMgr->persist($activeRace);
+                    $this->entityManager->persist($activeRace);
                 }
             }
 
-            $this->entityMgr->flush();
-            $this->entityMgr->commit();
+            $this->entityManager->flush();
+            $this->entityManager->commit();
         } catch (\Throwable $e) {
-            $this->entityMgr->rollback();
+            $this->entityManager->rollback();
             throw new \InvalidArgumentException($e->getMessage());
         }
     }

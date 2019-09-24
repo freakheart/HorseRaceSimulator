@@ -11,9 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="race")
  *
  * Class Race
- * @package App\Entity
  */
-Class Race
+class Race
 {
     /**
      * @var int
@@ -21,7 +20,6 @@ Class Race
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue
-     *
      */
     private $id;
 
@@ -60,48 +58,58 @@ Class Race
      */
     private $maxDistance;
 
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
 
-    public function setActive(int $active): void {
+    public function setActive(int $active): void
+    {
         $this->active = $active;
     }
 
-    public function getActive(): int {
+    public function getActive(): int
+    {
         return $this->active;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): void {
+    public function setCreatedAt(\DateTimeImmutable $createdAt): void
+    {
         $this->createdAt = $createdAt;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable {
+    public function getCreatedAt(): \DateTimeImmutable
+    {
         return $this->createdAt;
     }
 
-    public function setCompletedAt(?\DateTimeImmutable $completedAt): void {
+    public function setCompletedAt(?\DateTimeImmutable $completedAt): void
+    {
         $this->completedAt = $completedAt;
     }
 
-    public function getCompletedAt(): ?\DateTimeImmutable {
+    public function getCompletedAt(): ?\DateTimeImmutable
+    {
         return $this->completedAt;
     }
 
-    public function setDuration(?float $duration): void {
+    public function setDuration(?float $duration): void
+    {
         $this->duration = $duration;
     }
 
-    public function getDuration(): ?float {
+    public function getDuration(): ?float
+    {
         return $this->duration;
     }
 
-    public function setMaxDistance(float $maxDistance): void {
+    public function setMaxDistance(float $maxDistance): void
+    {
         $this->maxDistance = $maxDistance;
     }
 
-    public function getMaxDistance(): ?float {
+    public function getMaxDistance(): ?float
+    {
         return $this->maxDistance;
     }
-
 }

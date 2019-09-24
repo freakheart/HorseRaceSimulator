@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\HorseRace;
-use App\Helper\EntityManagerHelper;
+use App\Entity\HorseInRace;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
- * Class HorseRaceRepository
- * @package App\Repository
+ * Class HorseRaceRepository.
  *
- * @method HorseRace|null find($id, $lockMode = null, $lockVersion = null)
- * @method HorseRace|null findOneBy(array $criteria, array $orderBy = null)
- * @method HorseRace[]    findAll()
- * @method HorseRace[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method HorseInRace|null find($id, $lockMode = null, $lockVersion = null)
+ * @method HorseInRace|null findOneBy(array $criteria, array $orderBy = null)
+ * @method HorseInRace[]    findAll()
+ * @method HorseInRace[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-Class HorseRaceRepository extends ServiceEntityRepository
+class HorseInRaceRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry) {
-        parent::__construct($registry, HorseRace::class);
-        EntityManagerHelper::ensureManager($this->getEntityManager());
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, HorseInRace::class);
     }
 
     /**
      * @param int $raceId
-     * @return HorseRace[]
+     *
+     * @return HorseInRace[]
      */
-    public function findAllHorsesByRace(int $raceId): array {
+    public function findAllHorsesInRace(int $raceId): array
+    {
         return $this->createQueryBuilder('hr')
             ->addSelect('hr')
             ->andWhere('hr.race = :param1')
@@ -41,9 +41,10 @@ Class HorseRaceRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return HorseRace[]
+     * @return HorseInRace[]
      */
-    public function findBestEverTime(): array {
+    public function findBestEverTime(): array
+    {
         return $this->createQueryBuilder('hr')
             ->innerJoin('hr.race', 'r')
             ->addSelect('hr')
