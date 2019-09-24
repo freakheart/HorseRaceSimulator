@@ -2,6 +2,8 @@
 A horse racing simulator with PHP and Symfony Framework.
 
 # Instructions
+- Clone the Repository
+  - ```git clone https://github.com/freakheart/HorseRaceSimulator.git```
 - Enable pdo_pgsql extension in ```php.ini``` if you are using Windows, run ```sudo apt-get install php-pgsql``` in debian/ubuntu.
 
 - Update the ```DATABASE_URL``` in ```.env``` file.
