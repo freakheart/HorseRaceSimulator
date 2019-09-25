@@ -15,7 +15,7 @@ A horse racing simulator with PHP and Symfony Framework.
   - ```php bin/console server:run```
 
 # Author
-Subash Koutilya (subash.koutilya@gmail.com)
+Subash Koutilya Chidipothu(subash.koutilya@gmail.com)
 
 # License
 Copyright(c) 2019 MIT License
