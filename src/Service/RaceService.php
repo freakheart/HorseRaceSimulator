@@ -7,7 +7,11 @@ namespace App\Service;
 use App\Entity\HorseInRace;
 use App\Entity\Race;
 use App\Repository\RaceRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
+use RuntimeException;
+use Throwable;
 
 class RaceService
 {
@@ -33,12 +37,12 @@ class RaceService
     public function createRace(): void
     {
         if (count($this->raceRepository->getActiveRaces()) >= self::ALLOWED_RACES) {
-            throw new \InvalidArgumentException('Only '.self::ALLOWED_RACES.' races are allowed at the same time.');
+            throw new InvalidArgumentException('Only '.self::ALLOWED_RACES.' races are allowed at the same time.');
         }
 
         $race = new Race();
         $race->setActive(1);
-        $race->setCreatedAt(new \DateTimeImmutable());
+        $race->setCreatedAt(new DateTimeImmutable());
         $race->setMaxDistance(self::MAX_DISTANCE);
         $race->setDuration(0.0);
 
@@ -46,8 +50,8 @@ class RaceService
             $this->entityManager->persist($race);
             $horses = $this->horseInRaceService->getHorsesForRace();
 
-            if (count($horses) == 0) {
-                throw new \RuntimeException('Unable to create horses for race.');
+            if (0 == count($horses)) {
+                throw new RuntimeException('Unable to create horses for race.');
             }
 
             foreach ($horses as $horse) {
@@ -56,9 +60,9 @@ class RaceService
             }
 
             $this->entityManager->flush();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->entityManager->rollback();
-            throw new \InvalidArgumentException($e->getMessage());
+            throw new InvalidArgumentException($e->getMessage());
         }
     }
 
@@ -67,7 +71,7 @@ class RaceService
         $activeRaces = $this->raceRepository->getActiveRaces();
         $result = [];
 
-        if (count($activeRaces) == 0) {
+        if (0 == count($activeRaces)) {
             return $result;
         }
 
@@ -86,7 +90,7 @@ class RaceService
         $completedRaces = $this->raceRepository->getFinishedRaces(self::LAST_COMPLETED_RACES);
         $result = [];
 
-        if (count($completedRaces) == 0) {
+        if (0 == count($completedRaces)) {
             return $result;
         }
 
@@ -116,7 +120,7 @@ class RaceService
         $activeRaces = $this->raceRepository->getActiveRaces();
 
         if (0 === count($activeRaces)) {
-            throw new \InvalidArgumentException('There are no active races at this moment.');
+            throw new InvalidArgumentException('There are no active races at this moment.');
         }
 
         $this->entityManager->beginTransaction();
@@ -132,16 +136,16 @@ class RaceService
                 // If all horses have completed the race
                 if ($horses['completedRace']) {
                     $activeRace->setActive(0);
-                    $activeRace->setCompletedAt(new \DateTimeImmutable());
+                    $activeRace->setCompletedAt(new DateTimeImmutable());
                     $this->entityManager->persist($activeRace);
                 }
             }
 
             $this->entityManager->flush();
             $this->entityManager->commit();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->entityManager->rollback();
-            throw new \InvalidArgumentException($e->getMessage());
+            throw new InvalidArgumentException($e->getMessage());
         }
     }
 }

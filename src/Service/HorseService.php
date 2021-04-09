@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Horse;
-use JetBrains\PhpStorm\Pure;
+use InvalidArgumentException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class HorseService
@@ -40,7 +40,7 @@ class HorseService
         $errors = $this->validator->validate($horse);
 
         if (count($errors) > 0) {
-            throw new \InvalidArgumentException((string) $errors);
+            throw new InvalidArgumentException((string) $errors);
         }
 
         return $horse;

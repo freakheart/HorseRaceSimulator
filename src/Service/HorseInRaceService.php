@@ -8,7 +8,6 @@ use App\Entity\Horse;
 use App\Entity\HorseInRace;
 use App\Entity\Race;
 use App\Repository\HorseInRaceRepository;
-use JetBrains\PhpStorm\ArrayShape;
 
 class HorseInRaceService
 {
@@ -68,7 +67,7 @@ class HorseInRaceService
         return $this->horseInRaceRepository->findBestEverTime()[0] ?? null;
     }
 
-    #[ArrayShape(['completedRace' => "bool", 'horsesInRace' => "\App\Entity\HorseInRace[]"])] public function progressHorsesRace(Race $race, float $progressSeconds): array
+    public function progressHorsesRace(Race $race, float $progressSeconds): array
     {
         $horsesInRace = $this->horseInRaceRepository->findAllHorsesInRace($race->getId());
         $completedHorsesCount = 0;

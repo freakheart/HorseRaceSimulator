@@ -74,129 +74,81 @@ class Horse
      */
     private string $name;
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
     public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return float
-     */
     public function getSpeed(): float
     {
         return $this->speed;
     }
 
-    /**
-     * @param float $speed
-     */
     public function setSpeed(float $speed): void
     {
         $this->speed = $speed;
     }
 
-    /**
-     * @return float
-     */
     public function getStrength(): float
     {
         return $this->strength;
     }
 
-    /**
-     * @param float $strength
-     */
     public function setStrength(float $strength): void
     {
         $this->strength = $strength;
     }
 
-    /**
-     * @return float
-     */
     public function getEndurance(): float
     {
         return $this->endurance;
     }
 
-    /**
-     * @param float $endurance
-     */
     public function setEndurance(float $endurance): void
     {
         $this->endurance = $endurance;
     }
 
-    /**
-     * @return float
-     */
     public function getBestSpeed(): float
     {
         return $this->bestSpeed;
     }
 
-    /**
-     * @param float $bestSpeed
-     */
     public function setBestSpeed(float $bestSpeed): void
     {
         $this->bestSpeed = $bestSpeed;
     }
 
-    /**
-     * @return float
-     */
     public function getAutonomy(): float
     {
         return $this->autonomy;
     }
 
-    /**
-     * @param float $autonomy
-     */
     public function setAutonomy(float $autonomy): void
     {
         $this->autonomy = $autonomy;
     }
 
-    /**
-     * @return float
-     */
     public function getSlowDown(): float
     {
         return $this->slowDown;
     }
 
-    /**
-     * @param float $slowDown
-     */
     public function setSlowDown(float $slowDown): void
     {
         $this->slowDown = $slowDown;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;

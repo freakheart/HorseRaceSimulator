@@ -11,6 +11,7 @@ class UtilService
     public function getRandomHorseName(): string
     {
         $generator = All::create();
+
         return $generator->getName();
     }
 
