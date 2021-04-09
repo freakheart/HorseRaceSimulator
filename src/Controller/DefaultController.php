@@ -32,7 +32,7 @@ class DefaultController extends AbstractController
             );
         }
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('default');
     }
 
     #[Route('/progress', name: 'progressRaces')]
@@ -47,6 +47,6 @@ class DefaultController extends AbstractController
             );
         }
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('default');
     }
 }
