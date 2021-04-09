@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Horse Race Simulator{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="display-3 text-center">Horse Race Simulator</h1>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="row pt-5">
+                    <div class="p-3 col text-center">
+                        <a id="importFeed" class="btn btn-primary" href="{{ path('createRace') }}">Create Race</a>
+                    </div>
+                    <div class="p-3 col text-center">
+                        <a id="orderWine" class="btn btn-primary" href="{{ path('progressRaces') }}">Progress</a>
+                    </div>
+                </div>
+                {% for label, messages in app.flashes %}
+                    <div class="row">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col pt-3">
+                {{ include('active_races.html.twig') }}
+                <hr>
+                {{ include('finished_races.html.twig') }}
+                <hr>
+                {{ include('best_horse.html.twig') }}
+                <hr>
+            </div>
+        </div>
+    </div>
+{% endblock %}

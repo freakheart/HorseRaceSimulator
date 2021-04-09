@@ -1,0 +1,41 @@
+<h2>Active Races</h2>
+{% for race in activeRaces %}
+    <table class="table table-sm">
+        <thead>
+        <tr class="table-primary">
+            <th colspan="2">Race #  {{ race.race.id }}</th>
+            <th colspan="2">Created at {{ race.race.createdAt|date("F d, Y H:i:s", "Europe/Berlin") }}</th>
+        </tr>
+        <tr>
+            <th>Position</th>
+            <th>Name</th>
+            <th>Distance Covered</th>
+            <th>Duration</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for horse in race.horses %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ horse.horse.name }}</td>
+                <td>{{ horse.distanceCovered|number_format(2, '.', ',') }} m</td>
+                {% if horse.timeSpent < 60 %}
+                    <td>{{ horse.timeSpent|number_format(2, '.', ',') }} sec</td>
+                {% else %}
+                    <td>{{ (horse.timeSpent/60)|number_format(2, '.', ',') }} min</td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No horses were found for this race</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <table class="table">
+        <tr class="table-info">
+            <td>No active races were found</td>
+        </tr>
+    </table>
+{% endfor %}
